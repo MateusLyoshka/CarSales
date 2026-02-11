@@ -21,7 +21,7 @@ export default function Carousel() {
   const cars: CarItem[] = [
     {
       id: 1,
-      image: "/fundo_home.png",
+      image: "/background.png",
       brand: "Toyota",
       model: "Corolla",
       year: 2023,
@@ -30,7 +30,7 @@ export default function Carousel() {
     },
     {
       id: 2,
-      image: "/fundo_home.png",
+      image: "/background.png",
       brand: "Honda",
       model: "Civic",
       year: 2023,
@@ -39,7 +39,7 @@ export default function Carousel() {
     },
     {
       id: 3,
-      image: "/fundo_home.png",
+      image: "/background.png",
       brand: "BMW",
       model: "320i",
       year: 2022,
@@ -48,7 +48,7 @@ export default function Carousel() {
     },
     {
       id: 4,
-      image: "/fundo_home.png",
+      image: "/background.png",
       brand: "Volkswagen",
       model: "Polo",
       year: 2023,
@@ -57,7 +57,7 @@ export default function Carousel() {
     },
     {
       id: 5,
-      image: "/fundo_home.png",
+      image: "/background.png",
       brand: "Hyundai",
       model: "HB20",
       year: 2024,
@@ -79,7 +79,7 @@ export default function Carousel() {
   const currentCar = cars[currentIndex];
 
   return (
-    <section className="bg-gradient-to-b from-white to-blue-50 py-12">
+    <section className="bg-linear-to-b from-white to-blue-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Título */}
         <div className="mb-8">
@@ -110,11 +110,11 @@ export default function Carousel() {
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
             </div>
 
             {/* Informações do Carro */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+            <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-6 text-white">
               <h3 className="text-3xl font-bold mb-2">
                 {currentCar.brand} {currentCar.model}
               </h3>
