@@ -23,30 +23,38 @@ export default function Header() {
 
           {/* Menu Principal */}
           <nav className="hidden md:flex items-center space-x-1">
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
-            >
-              Comprar
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
-            >
-              Vender
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
-            >
-              FIPE
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
-            >
-              Sobre
-            </Button>
+            <Link href="/inventory">
+              <Button
+                variant="ghost"
+                className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
+              >
+                Inventory
+              </Button>
+            </Link>
+            <Link href="/sell">
+              <Button
+                variant="ghost"
+                className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
+              >
+                Sell Your Car
+              </Button>
+            </Link>
+            <Link href="/fipe">
+              <Button
+                variant="ghost"
+                className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
+              >
+                FIPE
+              </Button>
+            </Link>
+            <Link href="/sobre">
+              <Button
+                variant="ghost"
+                className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
+              >
+                About Us
+              </Button>
+            </Link>
           </nav>
 
           {/* Botões de Autenticação */}
