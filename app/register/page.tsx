@@ -5,12 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-blue-50 flex items-center justify-center p-4">
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      
+      <main className="grow bg-linear-to-br from-white to-blue-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md border-blue-200 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-white to-blue-50 border-b border-blue-100">
+        <CardHeader className="bg-linear-to-r from-white to-blue-50 border-b border-blue-100">
           <CardTitle className="text-2xl font-bold text-blue-900">Registre-se</CardTitle>
           <CardDescription className="text-blue-600">
             Crie sua conta no CarsHub
@@ -98,6 +103,9 @@ export default function RegisterPage() {
           </div>
         </CardContent>
       </Card>
+      </main>
+      
+      <Footer />
     </div>
   );
 }

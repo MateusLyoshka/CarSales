@@ -4,10 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-white to-blue-50 flex items-center justify-center p-4">
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      
+      <main className="grow bg-linear-to-br from-white to-blue-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md border-blue-200 shadow-lg">
         <CardHeader className="bg-linear-to-r from-white to-blue-50 border-b border-blue-100">
           <CardTitle className="text-2xl font-bold text-blue-900">Login</CardTitle>
@@ -60,6 +65,9 @@ export default function LoginPage() {
           </div>
         </CardContent>
       </Card>
+      </main>
+      
+      <Footer />
     </div>
   );
 }
