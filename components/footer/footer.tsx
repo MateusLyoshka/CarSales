@@ -6,7 +6,7 @@ import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "luc
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-blue-50 to-white border-t border-blue-100 mt-16">
+    <footer className="bg-linear-to-b from-blue-50 to-white border-t border-blue-100 mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Conteúdo Principal */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -86,7 +86,7 @@ export default function Footer() {
                 <span>contato@carshub.com</span>
               </li>
               <li className="flex items-start space-x-2 text-gray-600 text-sm">
-                <MapPin size={18} className="text-blue-600 flex-shrink-0 mt-0.5" />
+                <MapPin size={18} className="text-blue-600 shrink-0 mt-0.5" />
                 <span>São Paulo, SP - Brasil</span>
               </li>
             </ul>

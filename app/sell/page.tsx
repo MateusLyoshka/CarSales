@@ -83,7 +83,7 @@ export default function SellPage() {
     <div className="flex flex-col min-h-screen">
       <Header />
       
-      <main className="flex-grow bg-gradient-to-b from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+      <main className="grow bg-linear-to-b from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-4xl font-bold text-blue-900 mb-2">Venda seu Carro</h1>
           <p className="text-gray-600 mb-8">Preencha as informações do seu veículo</p>
