@@ -47,7 +47,7 @@ export default function Header() {
                 FIPE
               </Button>
             </Link>
-            <Link href="/sobre">
+            <Link href="/about">
               <Button
                 variant="ghost"
                 className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium"
