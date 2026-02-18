@@ -1,7 +1,11 @@
 import Fastify from 'fastify';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 const app = Fastify({ logger: true })
+
+dotenv.config();
 
 interface User {
     id: number
@@ -12,6 +16,11 @@ interface User {
 
 interface RegisterRequest {
     name: string
+    email: string
+    password: string
+}
+
+interface LoginRequest {
     email: string
     password: string
 }
@@ -37,6 +46,28 @@ app.post('/register', async (request, reply) => {
 
     return reply.status(201).send({ message: "User successfully created" })
 });
+
+app.post('/login', async (request, reply) => {
+    const { email, password } = request.body as LoginRequest
+
+    const user = users.find(u => u.email === email)
+    if (!user) {
+        return reply.status(401).send({ message: 'Invalid credentials' })
+    }
+
+    const isCorrectPassword = await bcrypt.compare(password, user.password)
+    if (!isCorrectPassword) {
+        return reply.status(401).send({ message: 'Invalid credentials' })
+    }
+
+    console.log(process.env.JWT_SECRET as string)
+
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET as string, {
+        expiresIn: "1h",
+    });
+
+    return { token };
+})
 
 const start = async () => {
     try {
