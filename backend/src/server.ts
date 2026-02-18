@@ -1,11 +1,34 @@
-import Fastify from 'fastify';
+import Fastify, { type FastifyReply, type FastifyRequest } from 'fastify';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import 'dotenv/config'
 
 const app = Fastify({ logger: true })
 
-dotenv.config();
+interface JWTUser { id: number; email: string; iat: number; exp: number }
+
+declare module 'fastify' {
+    export interface FastifyRequest {
+        user?: JWTUser
+    }
+}
+
+async function authenticate(request: FastifyRequest, reply: FastifyReply) {
+    try {
+        const token = request.headers.authorization?.replace("Bearer ", "")
+
+        if (!token) {
+            throw new Error("Token not found")
+        }
+
+        const decodedJwt = jwt.verify(token, process.env.JWT_SECRET as string) as JWTUser
+        request.user = decodedJwt
+
+    } catch (error) {
+        reply.status(401).send({ message: "Authentication failed" })
+    }
+}
+
 
 interface User {
     id: number
@@ -67,6 +90,10 @@ app.post('/login', async (request, reply) => {
     });
 
     return { token };
+})
+
+app.get('/me', { onRequest: [authenticate] }, async (request, reply) => {
+    return request.user
 })
 
 const start = async () => {
