@@ -92,7 +92,7 @@ The recommended way to run the database while developing the application locally
    # Start the backend server
    npm run dev
    ```
-   The API server will run on `http://localhost:3000` (or configured port).
+   The API server will run on `http://localhost:3004`.
 
 2. **Frontend Setup**
    ```bash
