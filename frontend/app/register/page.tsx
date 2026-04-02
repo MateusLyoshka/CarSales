@@ -5,10 +5,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { api } from "@/lib/axios";
+import axios from "axios";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
+import { useForm } from "react-hook-form";
+
+type User = {
+  name: string,
+  enami: string,
+  password: string,
+  confirmpassword: string
+}
 
 export default function RegisterPage() {
+
+  async function handleRegister(data: User) {
+    console.log(data)
+    try{
+      const response = await api.post("/register", data)
+      console.log(response)
+    } catch(error){
+      console.log("Request error: ", error)
+    }
+  }
+
+  const { register, handleSubmit } = useForm()
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -23,16 +46,18 @@ export default function RegisterPage() {
         </CardHeader>
 
         <CardContent className="pt-6">
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(handleRegister)}>
             <div className="space-y-2">
               <Label htmlFor="name" className="text-gray-700 font-medium">
                 Nome Completo
               </Label>
               <Input
                 id="name"
+                
                 type="text"
                 placeholder="Digite seu nome"
                 className="border-blue-200 focus:border-blue-500 focus:ring-blue-400"
+                {...register('name')}
               />
             </div>
 
@@ -42,9 +67,11 @@ export default function RegisterPage() {
               </Label>
               <Input
                 id="email"
+                
                 type="email"
                 placeholder="seu@email.com"
                 className="border-blue-200 focus:border-blue-500 focus:ring-blue-400"
+                {...register('email')}
               />
             </div>
 
@@ -54,6 +81,8 @@ export default function RegisterPage() {
               </Label>
               <Input
                 id="password"
+                
+                {...register('password')}
                 type="password"
                 placeholder="••••••••"
                 className="border-blue-200 focus:border-blue-500 focus:ring-blue-400"
@@ -66,6 +95,8 @@ export default function RegisterPage() {
               </Label>
               <Input
                 id="confirmPassword"
+                
+                {...register('confirmpassword')}                
                 type="password"
                 placeholder="••••••••"
                 className="border-blue-200 focus:border-blue-500 focus:ring-blue-400"
@@ -88,10 +119,9 @@ export default function RegisterPage() {
               </label>
             </div>
 
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold h-10">
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold h-10 ">
               Criar Conta
             </Button>
-          </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
@@ -101,6 +131,8 @@ export default function RegisterPage() {
               </a>
             </p>
           </div>
+          </form>
+
         </CardContent>
       </Card>
       </main>

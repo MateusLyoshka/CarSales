@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { authenticate } from "./middleware.js";
 import jwt from 'jsonwebtoken';
 import type { FastifyInstance } from 'fastify';
+import { prisma } from "../lib/prisma.js";
 
 interface User {
     id: number
@@ -30,14 +31,22 @@ export async function userRoutes(app: FastifyInstance) {
 
     app.post('/register', async (request, reply) => {
         const { name, email, password } = request.body as RegisterRequest
-        const user = users.find(u => u.email === email)
-        if (user) {
-            return reply.status(400).send({ message: 'User already exists' })
+        const userExists = await prisma.user.findUnique({ where: { email } })
+        if (userExists) {
+            return reply.status(400).send({ message: "User already exists" })
         }
         const hashedPassword = await bcrypt.hash(password, 10)
-        const newUser = { id: users.length + 1, name, email, password: hashedPassword }
-        users.push(newUser)
-        return reply.status(201).send({ message: "User successfully created" })
+        const user = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password: hashedPassword
+            }
+        })
+        return reply.status(201).send({
+            message: "Usuário criado com sucesso!",
+            id: user.id
+        })
     });
 
     app.post('/login', async (request, reply) => {
