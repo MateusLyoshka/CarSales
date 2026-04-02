@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 
 type User = {
   name: string,
-  enami: string,
+  email: string,
   password: string,
   confirmpassword: string
 }
@@ -22,15 +22,20 @@ export default function RegisterPage() {
 
   async function handleRegister(data: User) {
     console.log(data)
-    try{
+    try {
       const response = await api.post("/register", data)
       console.log(response)
-    } catch(error){
-      console.log("Request error: ", error)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("Request error:", error.response?.data ?? error.message)
+        return
+      }
+
+      console.log("Request error:", error)
     }
   }
 
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm<User>()
 
   return (
     <div className="flex flex-col min-h-screen">

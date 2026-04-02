@@ -1,24 +1,14 @@
 import bcrypt from "bcryptjs";
-import { authenticate } from "./middleware.js";
+import { authenticate } from "../middleware.js";
 import jwt from 'jsonwebtoken';
 import type { FastifyInstance } from 'fastify';
-import { prisma } from "../lib/prisma.js";
+import { prisma } from "../../lib/prisma.js";
+import type { RegisterSchemaType, LoginSchemaType } from "../schemas/userSchema.js";
 
-interface User {
-    id: number
-    name: string
-    email: string
-    password: string
-}
-
-interface RegisterRequest {
-    name: string
-    email: string
-    password: string
-}
-
-interface LoginRequest {
-    email: string
+type User = {
+    id: number,
+    name: string,
+    email: string,
     password: string
 }
 
@@ -30,8 +20,12 @@ export async function userRoutes(app: FastifyInstance) {
     });
 
     app.post('/register', async (request, reply) => {
-        const { name, email, password } = request.body as RegisterRequest
+        const { name, email, password, confirmpassword } = request.body as RegisterSchemaType
         const userExists = await prisma.user.findUnique({ where: { email } })
+        const passwordsMatch = password === confirmpassword
+        if (!passwordsMatch) {
+            return reply.status(400).send({ message: "Passwords do not match" })
+        }
         if (userExists) {
             return reply.status(400).send({ message: "User already exists" })
         }
@@ -50,8 +44,8 @@ export async function userRoutes(app: FastifyInstance) {
     });
 
     app.post('/login', async (request, reply) => {
-        const { email, password } = request.body as LoginRequest
-        const user = users.find(u => u.email === email)
+        const { email, password } = request.body as LoginSchemaType
+        const user = await prisma.user.findUnique({ where: { email } })
         if (!user) {
             return reply.status(401).send({ message: 'Invalid credentials' })
         }
