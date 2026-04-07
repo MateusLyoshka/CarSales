@@ -3,7 +3,9 @@ import { authenticate } from "../middleware.js";
 import jwt from 'jsonwebtoken';
 import type { FastifyInstance } from 'fastify';
 import { prisma } from "../../lib/prisma.js";
-import type { RegisterSchemaType, LoginSchemaType } from "../schemas/userSchema.js";
+import { type RegisterSchemaType, type LoginSchemaType, RegisterSchema } from "../schemas/userSchema.js";
+import { error } from "node:console";
+import z from "zod";
 
 type User = {
     id: number,
@@ -20,27 +22,43 @@ export async function userRoutes(app: FastifyInstance) {
     });
 
     app.post('/register', async (request, reply) => {
-        const { name, email, password, confirmpassword } = request.body as RegisterSchemaType
+        const result = RegisterSchema.safeParse(request.body);
+        if (!result.success) {
+            const errorTree = z.treeifyError(result.error);
+            return reply.status(400).send({
+                message: "Invalid data",
+                error: errorTree,
+            })
+        }
+        const { name, email, password, confirmpassword } = result.data;
         const userExists = await prisma.user.findUnique({ where: { email } })
+        if (userExists) {
+            return reply.status(400).send({ message: "Email already in use" })
+        }
         const passwordsMatch = password === confirmpassword
         if (!passwordsMatch) {
             return reply.status(400).send({ message: "Passwords do not match" })
         }
-        if (userExists) {
-            return reply.status(400).send({ message: "User already exists" })
-        }
         const hashedPassword = await bcrypt.hash(password, 10)
-        const user = await prisma.user.create({
-            data: {
-                name,
-                email,
-                password: hashedPassword
-            }
-        })
-        return reply.status(201).send({
-            message: "Usuário criado com sucesso!",
-            id: user.id
-        })
+        try {
+            const user = await prisma.user.create({
+                data: {
+                    name,
+                    email,
+                    password: hashedPassword,
+                },
+            });
+
+            return reply.status(201).send({
+                message: "User created successfully!",
+                id: user.id,
+            });
+        } catch (error) {
+            return reply.status(500).send({
+                message: "Failed to create user",
+                error: error
+            });
+        }
     });
 
     app.post('/login', async (request, reply) => {

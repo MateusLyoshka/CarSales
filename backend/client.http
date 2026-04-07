@@ -7,9 +7,10 @@ POST {{baseUrl}}/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "admin@gmail.com",
-    "name": "testuser",
-    "password": "testpassword"
+    "email": "admin4@gmail.com",
+    "name": "testuser1",
+    "password": "testp",
+    "confirmpassword": "testp"
 }
 
 ### Login
